@@ -38,7 +38,23 @@ const getMemories = async (req, res) => {
   }
 };
 
+const getMemory = async (req, res) => {
+  try {
+    const memory = await Memory.findById(req.params.id);
+
+    if (!memory) {
+      return res.status(404).json({ msg: "Memória não encontrada!" });
+    }
+
+    res.json(memory);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Ocorreu um erro!");
+  }
+};
+
 module.exports = {
   createMemory,
   getMemories,
+  getMemory,
 };
