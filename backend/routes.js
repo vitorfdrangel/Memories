@@ -10,6 +10,7 @@ const {
   getMemory,
   deleteMemory,
   updateMemory,
+  toggleFavorite,
 } = require("./controllers/MemoryController");
 
 router.post(
@@ -36,5 +37,7 @@ router.delete("/:id", (req, res) => deleteMemory(req, res));
 router.patch("/:id", upload.single("image"), (req, res) =>
   updateMemory(req, res)
 );
+
+router.patch("/favorite/:id", (req, res) => toggleFavorite(req, res));
 
 module.exports = router;
