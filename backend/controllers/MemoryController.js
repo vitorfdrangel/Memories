@@ -13,6 +13,7 @@ const removeOldImage = (memory) => {
   });
 };
 
+// Criar nova memória
 const createMemory = async (req, res) => {
   try {
     const { title, description } = req.body;
@@ -40,6 +41,7 @@ const createMemory = async (req, res) => {
   }
 };
 
+// Resgatar todas as memórias
 const getMemories = async (req, res) => {
   try {
     const memories = await Memory.find();
@@ -51,6 +53,7 @@ const getMemories = async (req, res) => {
   }
 };
 
+// Resgatar uma única memória
 const getMemory = async (req, res) => {
   try {
     const memory = await Memory.findById(req.params.id);
@@ -66,6 +69,7 @@ const getMemory = async (req, res) => {
   }
 };
 
+// Deletar memória
 const deleteMemory = async (req, res) => {
   try {
     const memoryDeleted = await Memory.findByIdAndDelete(req.params.id);
@@ -83,6 +87,7 @@ const deleteMemory = async (req, res) => {
   }
 };
 
+// atualizar memória
 const updateMemory = async (req, res) => {
   try {
     const { title, description } = req.body;
@@ -122,6 +127,7 @@ const updateMemory = async (req, res) => {
   }
 };
 
+// Adicionar / remover favorito
 const toggleFavorite = async (req, res) => {
   try {
     const memory = await Memory.findById(req.params.id);
@@ -141,12 +147,16 @@ const toggleFavorite = async (req, res) => {
   }
 };
 
+// Adicionar comentário à memória
 const addComment = async (req, res) => {
   try {
     const { name, text } = req.body;
 
-    if (!name || !text)
-      return res.json({ msg: "Por favor, preencha todos os campos." });
+    if (!name || !text) {
+      return res
+        .status(400)
+        .json({ msg: "Por favor, preencha todos os campos." });
+    }
 
     const comment = { name, text };
 
@@ -162,8 +172,8 @@ const addComment = async (req, res) => {
 
     res.json({ msg: "Comentário adicionado!", memory });
   } catch (error) {
-    console.log(error.message);
-    res.status(500).send("Ocorreu um erro!");
+    console.log(error);
+    res.status(500).send({ msg: "Por favor, tente novamente" });
   }
 };
 
